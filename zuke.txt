@@ -1,0 +1,130 @@
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Fetch user data from the form
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $address = $_POST['address'];
+    $phone = $_POST['phone'];
+
+    // Database connection
+    $conn = new mysqli("localhost", "username", "password", "database");
+
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Insert user data into the database
+    $sql = "INSERT INTO users (name, email, password, address, phone) VALUES ('$name', '$email', '$password', '$address', '$phone')";
+    
+    if ($conn->query($sql) === TRUE) {
+        echo "Registration successful";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+
+    // Close database connection
+    $conn->close();
+}
+?>
+<!-- HTML form for user registration -->
+<form method="post" action="register.php">
+    Name: <input type="text" name="name" required><br>
+    Email: <input type="email" name="email" required><br>
+    Password: <input type="password" name="password" required><br>
+    Address: <input type="text" name="address" required><br>
+    Phone: <input type="text" name="phone" required><br>
+    <input type="submit" value="Register">
+</form>
+Login Page (login.php):
+
+php
+Copy code
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Fetch user credentials from the form
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    // Database connection
+    $conn = new mysqli("localhost", "username", "password", "database");
+
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Fetch user data based on email
+    $sql = "SELECT * FROM users WHERE email='$email'";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        // Verify password
+        $row = $result->fetch_assoc();
+        if (password_verify($password, $row['password'])) {
+            echo "Login successful";
+        } else {
+            echo "Incorrect password";
+        }
+    } else {
+        echo "User not found";
+    }
+
+    // Close database connection
+    $conn->close();
+}
+?>
+<!-- HTML form for user login -->
+<form method="post" action="login.php">
+    Email: <input type="email" name="email" required><br>
+    Password: <input type="password" name="password" required><br>
+    <input type="submit" value="Login">
+</form>
+Make sure to replace "username", "password", and "database" with your actual database credentials and database name in both files. Also, ensure that you have a table named "users" with the necessary columns in your database.
+
+
+
+
+
+Message ChatGPT…
+
+ChatGPT can make mistakes. Consider checking important
+[3:55 PM, 2/2/2024] Akhila@ Jspiders: if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Fetch user credentials from the form
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    // Database connection
+    $conn = new mysqli("localhost", "username", "password", "database");
+
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Fetch user data based on email
+    $sql = "SELECT * FROM users WHERE email='$email'";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        // Verify password
+        $row = $result->fetch_assoc();
+        if (password_verify($password, $row['password'])) {
+            echo "Login successful";
+        } else {
+            echo "Incorrect password";
+        }
+    } else {
+        echo "User not found";
+    }
+
+    // Close database connection
+    $conn->close();
+}
+?>
+<!-- HTML form for user login -->
+<form method="post" action="login.php">
+    Email: <input type="email" name="email" required><br>
+    Password: <input type="password" name="password" required><br>
+    <input type="submit" value="Login">
+</form>
